@@ -7,4 +7,3 @@ py3dmol==1.8.0
 matplotlib== 3.5.0
 stmol==0.0.7
 click==7.1.2
-xorg-libxrender==0.9.10
