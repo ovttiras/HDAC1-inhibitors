@@ -1,1 +1,0 @@
-web: sh setup.sh && streamlit run predictor HDAC1 - app.py
