@@ -584,12 +584,12 @@ if models_option == 'RDKit':
 
 
             # Print results for each molecules
-            # if "button_clicked" not in st.session_state:
-            #     st.session_state.button_clicked = False
-            # def callback():
-            #     st.session_state.button_clicked=True
+            if "button_clicked" not in st.session_state:
+                st.session_state.button_clicked = False
+            def callback():
+                st.session_state.button_clicked=True
 
-            if st.button('Show results and map of fragments contribution for each molecule separately'):
+            if (st.button('Show results and map of fragments contribution for each molecule separately', on_click=callback) or st.session_state.button_clicked):
                 st.header('**Prediction results:**')
 
                 items_on_page = st.slider('Select number of compounds on page', 1, 15, 3)
