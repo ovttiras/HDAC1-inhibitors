@@ -607,6 +607,7 @@ if models_option == 'RDKit':
                     smi = Chem.MolToSmiles(moldf[i])
                     mol=moldf[i]
                     im = Draw.MolToImage(mol)
+                    number=i+1
                     st.write('**COMPOUNDS NUMBER **' + str(i+1) + '**:**')
                     st.write('**2D structure of compound number **' + str(i+1) + '**:**')
                     st.image(im)
@@ -629,7 +630,7 @@ if models_option == 'RDKit':
                     blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
-                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=[0])
+                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No.': number}, index=[0])
                     # # CSS to inject contained in a string
                     # hide_dataframe_row_index = """
                     #             <style>
@@ -639,7 +640,7 @@ if models_option == 'RDKit':
                     #             """
                     # # Inject CSS with Markdown
                     # st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
-                    # st.dataframe(predictions)           
+                    st.dataframe(predictions)           
 
                     # st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
                     # st.write('**HDAC1:** ', pred_consensus[i])
