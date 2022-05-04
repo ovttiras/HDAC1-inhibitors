@@ -629,10 +629,12 @@ if models_option == 'RDKit':
                     blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
+                    pred_beta = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=None)
+                    st.dataframe(predictions)           
 
-                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
-                    st.write('**HDAC1:** ', pred_consensus[i])
-                    st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
+                    # st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
+                    # st.write('**HDAC1:** ', pred_consensus[i])
+                    # st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
     
 st.text('© Oleg Tinkov, 2022')
