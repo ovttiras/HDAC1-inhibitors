@@ -31,6 +31,9 @@ from IPython.display import HTML
 import matplotlib.pyplot as plt
 from stmol import showmol
 import py3Dmol
+import chembl_structure_pipeline
+from molvs import standardize_smiles
+
 
 ######################
 # Page Title
@@ -45,7 +48,7 @@ if st.button('App Characteristics'):
 
 
 # Select and read  saved model
-models_option = st.sidebar.selectbox('Select consensus QSAR model for prediction', ('ECFP4', 'RDKit'))
+models_option = st.sidebar.selectbox('Select descriptors for consensus QSAR model', ('ECFP4', 'RDKit'))
      
 if models_option == 'ECFP4':
     load_model_RF = pickle.load(open('FP/HDAC1_RF_ECFP4.pkl', 'rb'))
@@ -54,16 +57,18 @@ if models_option == 'ECFP4':
     load_model_SVM = pickle.load(open('FP/HDAC1_SVM_ECFP4.pkl', 'rb'))
     x_tr = loadtxt('FP/x_tr.csv', delimiter=',')
     model_AD_limit = 4.11
-    st.sidebar.header('Select the compounds to be predicted')
+    st.sidebar.header('Select input molecular files')
         # Read SMILES input
-    SMILES = st.sidebar.checkbox('SMILES input')
+    SMILES = st.sidebar.checkbox('SMILES notations (*.smi)')
     if SMILES:
         SMILES_input = ""
         compound_smiles = st.sidebar.text_area("Enter SMILES", SMILES_input)
-        m = Chem.MolFromSmiles(compound_smiles)
-
-        im = Draw.MolToImage(m)
-        st.sidebar.image(im)
+        if len(compound_smiles)!=0:
+            smiles=standardize_smiles(compound_smiles)
+            m = Chem.MolFromSmiles(smiles)
+            im = Draw.MolToImage(m)
+            st.sidebar.image(im)
+        
         
         if st.sidebar.button('PREDICT COMPOUND FROM SMILES'):
             # Calculate molecular descriptors
@@ -152,39 +157,71 @@ if models_option == 'ECFP4':
                     
 
     # Read SDF file 
-    LOAD = st.sidebar.checkbox('Upload compounds from file sdf')
+    LOAD = st.sidebar.checkbox('MDL multiple SD file (*.sdf)')
     if LOAD:
         uploaded_file = st.sidebar.file_uploader("Choose a file")
         if uploaded_file is not None:
-            sdfInfo = dict(smilesName='SMILES', molColName='ROMol')
+            st.header('**1. CHEMICAL STRUCTURE VALIDATION AND STANDARDIZATION:**')
+            supplier = Chem.ForwardSDMolSupplier(uploaded_file,sanitize=False)
+            failed_mols = []
+            all_mols =[]
+            wrong_structure=[]
+            wrong_smiles=[]
+            for i, m in enumerate(supplier):
+                structure = Chem.Mol(m)
+                all_mols.append(structure)
+                try:
+                    Chem.SanitizeMol(structure)
+                except:
+                    failed_mols.append(m)
+                    wrong_smiles.append(Chem.MolToSmiles(m))
+                    wrong_structure.append(str(i+1))
+
+           
+            st.write('Original data: ', len(all_mols), 'molecules')
+            # st.write('Kept data: ', len(moldf), 'molecules')
+            st.write('Failed data: ', len(failed_mols), 'molecules')
+            if len(failed_mols)!=0:
+                number =[]
+                for i in range(len(failed_mols)):
+                    number.append(str(i+1))
+                
+                
+                bad_molecules = pd.DataFrame({'No. failed molecule in original set': wrong_structure, 'SMILES of wrong structure: ': wrong_smiles, 'No.': number}, index=None)
+                bad_molecules = bad_molecules.set_index('No.')
+                st.dataframe(bad_molecules)
+
+            # Standardization SDF file 
+            records = []
+            for i in range(len(all_mols)):
+                record = Chem.MolToMolBlock(all_mols[i])
+                records.append(record)
             
-            moldf = PandasTools.LoadSDF(uploaded_file, **sdfInfo)
-            st.header('**CHECKING STRUCTURES:**')
-            st.write('Original data: ', len(moldf), 'molecules')
-            # Rename ROMol
-            moldf = moldf.rename(columns={'ROMol': 'Mol'})
-            # Remove missing RDKit molecules
-            moldf = moldf[pd.notnull(moldf['Mol'])]
-            if 'StandardizerResult' in moldf.columns:
-                moldf = moldf.drop(columns='StandardizerResult')
-            # Columns
+            mols_ts = []
+            for i,record in enumerate(records):
+                standard_record = chembl_structure_pipeline.standardize_molblock(record)
+                m = Chem.MolFromMolBlock(standard_record)
+                mols_ts.append(m)
+           
+            moldf = []
+            for val in mols_ts:
+                if val != None :
+                    moldf.append(val)
             st.write('Kept data: ', len(moldf), 'molecules')
-            from molvs.validate import Validator
-            fmt = '%(asctime)s - %(levelname)s - %(validation)s - %(message)s'
-            validator = Validator(log_format=fmt)
-            st.write('\n Problematic structures: \n', validator.validate(moldf))
 
-        
-            # Calculate molecular descriptors
-
+             # Calculate molecular descriptors
             def calcfp(mol,funcFPInfo=dict(radius=2,nBits=1024,useFeatures=False,useChirality = False)):
                 arr = np.zeros((1,))
                 fp = GetMorganFingerprintAsBitVect(mol, **funcFPInfo)
                 DataStructs.ConvertToNumpyArray(fp, arr)
                 return arr
 
-            moldf['Descriptors'] = moldf.Mol.apply(calcfp)
+            moldf=pd.DataFrame(moldf)
+            moldf['Descriptors'] = moldf[0].apply(calcfp)
             X = np.array(list(moldf['Descriptors'])).astype(int)
+            
+            moldf.drop(columns='Descriptors', inplace=True)
+
                 
             ######################
             # Pre-built model
@@ -222,19 +259,31 @@ if models_option == 'ECFP4':
 
 
             def fpFunction(m, atomId=-1):
-                fp = SimilarityMaps.GetMorganFingerprint(m,
+                fp = SimilarityMaps.GetMorganFingerprint(mol,
                                                         atomId=atomId,
                                                         radius=2,
                                                         nBits=1024)
                 return fp
             #Print and download common results
-            st.header('**RESULTS OF PREDICTION:**')
-            if st.button('Show results as table'):
-                moldf.drop(columns='Descriptors', inplace=True)
-                moldf.drop(columns='Mol', inplace=True)
-                moldf.drop(columns='ID', inplace=True)                
-                pred_beta = pd.DataFrame({'HDAC1 activity': pred_consensus,'Applicability domain (AD)': cpd_AD_vs}, index=None)
-                predictions = pd.concat([moldf, pred_beta], axis=1)
+
+            st.header('**2. RESULTS OF PREDICTION:**')
+            if st.button('Show results as table'):                       
+                number=[]
+                for i in range(len(moldf)):
+                    number.append(str(i+1))
+                
+                for i in range(len(moldf)):
+                    a= moldf[0]
+                    b=list(a)
+                
+                smiles=[]
+                for i in range(len(b)):
+                    m = Chem.MolToSmiles(b[i])
+                    smiles.append(m)
+
+
+                pred_beta = pd.DataFrame({'SMILES': smiles, 'HDAC1 activity': pred_consensus,'Applicability domain (AD)': cpd_AD_vs, 'No.': number}, index=None)
+                predictions = pred_beta.set_index('No.')
                 st.dataframe(predictions)           
                 def convert_df(df):
                     return df.to_csv().encode('utf-8')  
@@ -247,15 +296,44 @@ if models_option == 'ECFP4':
                     mime='text/csv',
                 )
 
+            for i in range(len(moldf)):
+                a= moldf[0]
+                b=list(a)
             # Print results for each molecules
-            if st.button('Show results and map of fragments contribution for each molecule separately'):
+            if "button_clicked" not in st.session_state:
+                st.session_state.button_clicked = False
+            def callback():
+                st.session_state.button_clicked=True
+
+            if (st.button('Show results and map of fragments contribution for each molecule separately', on_click=callback) or st.session_state.button_clicked):
                 st.header('**Prediction results:**')
-                for i in range(len(moldf.Mol)):
-                    a= moldf['SMILES']
-                    b=list(a)  
-                for i in range(len(b)):
-                    m = Chem.MolFromSmiles(b[i])
-                    im = Draw.MolToImage(m)
+
+                items_on_page = st.slider('Select compounds on page', 1, 15, 3)
+                def paginator(label, items, items_per_page=items_on_page, on_sidebar=False):
+                              
+                # Figure out where to display the paginator
+                    if on_sidebar:
+                        location = st.sidebar.empty()
+                    else:
+                        location = st.empty()
+
+                    # Display a pagination selectbox in the specified location.
+                    items = list(items)
+                    n_pages = len(items)
+                    n_pages = (len(items) - 1) // items_per_page + 1
+                    page_format_func = lambda i: "Page " + str(i+1)
+                    page_number = location.selectbox(label, range(n_pages), format_func=page_format_func)
+
+                    # Iterate over the items in the page to let the user display them.
+                    min_index = page_number * items_per_page
+                    max_index = min_index + items_per_page
+                    import itertools
+                    return itertools.islice(enumerate(items), min_index, max_index)
+
+                for i, mol in paginator("Select a page", b):
+                    smi = Chem.MolToSmiles(b[i])
+                    mol=b[i]
+                    im = Draw.MolToImage(mol)
                     st.write('**COMPOUNDS NUMBER **' + str(i+1) + '**:**')
                     st.write('**2D structure of compound number **' + str(i+1) + '**:**')
                     st.image(im)
@@ -275,16 +353,17 @@ if models_option == 'ECFP4':
                         xyzview.setBackgroundColor('black')
                         xyzview.zoomTo()
                         showmol(xyzview,height=500,width=500)
-                    blk=makeblock(b[i])
+                    blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-
-                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', b[i])
+                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
                     st.write('**HDAC1:** ', pred_consensus[i])
                     st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
-                    fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(m, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
+
+                    
                     st.write('**Predicted fragments contribution for compound number **'+ str(i+1) + '**:**')
+                    fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(mol, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
                     st.pyplot(fig)
                     st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
@@ -302,10 +381,12 @@ if models_option == 'RDKit':
     if SMILES:
         SMILES_input = ""
         compound_smiles = st.sidebar.text_area("Enter SMILES", SMILES_input)
-        m = Chem.MolFromSmiles(compound_smiles)
+        if len(compound_smiles)!=0:
+            smiles=standardize_smiles(compound_smiles)
+            m = Chem.MolFromSmiles(smiles)
+            im = Draw.MolToImage(m)
+            st.sidebar.image(im)
 
-        im = Draw.MolToImage(m)
-        st.sidebar.image(im)
 
         if st.sidebar.button('PREDICT COMPOUND FROM SMILES'):
             # Calculate molecular descriptors
@@ -370,43 +451,68 @@ if models_option == 'RDKit':
                              
 
     # Read SDF file 
-    LOAD = st.sidebar.checkbox('Upload compounds from file sdf')
+    LOAD = st.sidebar.checkbox('MDL multiple SD file (*.sdf)')
     if LOAD:
         uploaded_file = st.sidebar.file_uploader("Choose a file")
         if uploaded_file is not None:
-            sdfInfo = dict(smilesName='SMILES', molColName='ROMol')
-            
-            moldf = PandasTools.LoadSDF(uploaded_file, **sdfInfo)
-            st.header('**CHECKING STRUCTURES:**')
-            st.write('Original data: ', len(moldf), 'molecules')
-            # Rename ROMol
-            moldf = moldf.rename(columns={'ROMol': 'Mol'})
-            # Remove missing RDKit molecules
-            moldf = moldf[pd.notnull(moldf['Mol'])]
-            if 'StandardizerResult' in moldf.columns:
-                moldf = moldf.drop(columns='StandardizerResult')
-            # Columns
-            st.write('Kept data: ', len(moldf), 'molecules')
-            from molvs.validate import Validator
-            fmt = '%(asctime)s - %(levelname)s - %(validation)s - %(message)s'
-            validator = Validator(log_format=fmt)
-            st.write('\n Problematic structures: \n', validator.validate(moldf))
+            st.header('**1. CHEMICAL STRUCTURE VALIDATION AND STANDARDIZATION:**')
+            supplier = Chem.ForwardSDMolSupplier(uploaded_file,sanitize=False)
+            failed_mols = []
+            all_mols =[]
+            wrong_structure=[]
+            wrong_smiles=[]
+            for i, m in enumerate(supplier):
+                structure = Chem.Mol(m)
+                all_mols.append(structure)
+                try:
+                    Chem.SanitizeMol(structure)
+                except:
+                    failed_mols.append(m)
+                    wrong_smiles.append(Chem.MolToSmiles(m))
+                    wrong_structure.append(str(i+1))
 
-            for i in range(len(moldf.Mol)):
-                a= moldf['SMILES']
-                b=list(a) 
-            vs = []
-            for i in range(len(b)):
-                m = Chem.MolFromSmiles(b[i])
-                vs.append(m) 
            
+            st.write('Original data: ', len(all_mols), 'molecules')
+            # st.write('Kept data: ', len(moldf), 'molecules')
+            st.write('Failed data: ', len(failed_mols), 'molecules')
+            if len(failed_mols)!=0:
+                number =[]
+                for i in range(len(failed_mols)):
+                    number.append(str(i+1))
+                
+                
+                bad_molecules = pd.DataFrame({'No. failed molecule in original set': wrong_structure, 'SMILES of wrong structure: ': wrong_smiles, 'No.': number}, index=None)
+                bad_molecules = bad_molecules.set_index('No.')
+                st.dataframe(bad_molecules)
 
+            # Standardization SDF file 
+            records = []
+            for i in range(len(all_mols)):
+                record = Chem.MolToMolBlock(all_mols[i])
+                records.append(record)
+            
+            mols_ts = []
+            for i,record in enumerate(records):
+                standard_record = chembl_structure_pipeline.standardize_molblock(record)
+                m = Chem.MolFromMolBlock(standard_record)
+                mols_ts.append(m)
+           
+            moldf = []
+            for val in mols_ts:
+                if val != None :
+                    moldf.append(val)
+            st.write('Kept data: ', len(moldf), 'molecules')
+    
         
             # Calculate molecular descriptors
+            number=[]
+            for i in range(len(moldf)):
+                number.append(str(i+1))
+                
             calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
             header = calc.GetDescriptorNames()
             descr_tr= []
-            for m in vs:
+            for m in moldf:
                 descr_tr.append(calc.CalcDescriptors(m))
                 X = np.asarray(descr_tr)
                                 
@@ -439,11 +545,20 @@ if models_option == 'RDKit':
             cpd_AD_vs = np.where(cpd_value_vs <= model_AD_limit, "Inside AD", "Outside AD")
 
             st.header('**RESULTS OF PREDICTION:**')
-            if st.button('Show results as table'):
-                moldf.drop(columns='Mol', inplace=True)
-                moldf.drop(columns='ID', inplace=True)                
-                pred_beta = pd.DataFrame({'HDAC1 activity': pred_consensus,'Applicability domain (AD)': cpd_AD_vs}, index=None)
-                predictions = pd.concat([moldf, pred_beta], axis=1)
+            if st.button('Show results as table'):                       
+                number=[]
+                for i in range(len(moldf)):
+                    number.append(str(i+1))
+
+                
+                smiles=[]
+                for i in range(len(moldf)):
+                    m = Chem.MolToSmiles(moldf[i])
+                    smiles.append(m)
+
+
+                pred_beta = pd.DataFrame({'SMILES': smiles, 'HDAC1 activity': pred_consensus,'Applicability domain (AD)': cpd_AD_vs, 'No.': number}, index=None)
+                predictions = pred_beta.set_index('No.')
                 st.dataframe(predictions)           
                 def convert_df(df):
                     return df.to_csv().encode('utf-8')  
@@ -456,15 +571,37 @@ if models_option == 'RDKit':
                     mime='text/csv',
                 )
 
-            # Print results
-            if st.button('Show  results for each molecule separately'):
+
+            # Print results for each molecules
+            if st.button('Show results and map of fragments contribution for each molecule separately'):
                 st.header('**Prediction results:**')
-                for i in range(len(moldf.Mol)):
-                    a= moldf['SMILES']
-                    b=list(a)  
-                for i in range(len(b)):
-                    m = Chem.MolFromSmiles(b[i])
-                    im = Draw.MolToImage(m)
+
+                items_on_page = st.slider('Select compounds on page', 1, 15, 3)
+                def paginator(label, items, items_per_page=items_on_page, on_sidebar=False):
+                              
+                # Figure out where to display the paginator
+                    if on_sidebar:
+                        location = st.sidebar.empty()
+                    else:
+                        location = st.empty()
+
+                    # Display a pagination selectbox in the specified location.
+                    items = list(items)
+                    n_pages = len(items)
+                    n_pages = (len(items) - 1) // items_per_page + 1
+                    page_format_func = lambda i: "Page " + str(i+1)
+                    page_number = location.selectbox(label, range(n_pages), format_func=page_format_func)
+
+                    # Iterate over the items in the page to let the user display them.
+                    min_index = page_number * items_per_page
+                    max_index = min_index + items_per_page
+                    import itertools
+                    return itertools.islice(enumerate(items), min_index, max_index)
+
+                for i, mol in paginator("Select a page", moldf):
+                    smi = Chem.MolToSmiles(moldf[i])
+                    mol=moldf[i]
+                    im = Draw.MolToImage(mol)
                     st.write('**COMPOUNDS NUMBER **' + str(i+1) + '**:**')
                     st.write('**2D structure of compound number **' + str(i+1) + '**:**')
                     st.image(im)
@@ -484,11 +621,11 @@ if models_option == 'RDKit':
                         xyzview.setBackgroundColor('black')
                         xyzview.zoomTo()
                         showmol(xyzview,height=500,width=500)
-                    blk=makeblock(b[i])
+                    blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', b[i])
+                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
                     st.write('**HDAC1:** ', pred_consensus[i])
                     st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
