@@ -308,7 +308,7 @@ if models_option == 'ECFP4':
             if (st.button('Show results and map of fragments contribution for each molecule separately', on_click=callback) or st.session_state.button_clicked):
                 st.header('**Prediction results:**')
 
-                items_on_page = st.slider('Select compounds on page', 1, 15, 3)
+                items_on_page = st.slider('Select number of compounds on page', 1, 15, 3)
                 def paginator(label, items, items_per_page=items_on_page, on_sidebar=False):
                               
                 # Figure out where to display the paginator
@@ -581,7 +581,7 @@ if models_option == 'RDKit':
             if (st.button('Show results and map of fragments contribution for each molecule separately', on_click=callback) or st.session_state.button_clicked):
                 st.header('**Prediction results:**')
 
-                items_on_page = st.slider('Select compounds on page', 1, 15, 3)
+                items_on_page = st.slider('Select number of compounds on page', 1, 15, 3)
                 def paginator(label, items, items_per_page=items_on_page, on_sidebar=False):
                               
                 # Figure out where to display the paginator
