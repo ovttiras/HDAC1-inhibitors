@@ -38,7 +38,7 @@ from molvs import standardize_smiles
 ######################
 # Page Title
 ######################
-st.write("<h1 style='text-align: center; color: blue;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
+st.write("<h1 style='text-align: center; color: #FFA07A;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
 image = Image.open('app_logo.jpg')
 st.image(image, use_column_width=True)
 st.write("<h3 style='text-align: center; color: black;'> A machine learning Web application to assess the potential of histone deacetylase 1 (HDAC1) inhibitors.</h1>", unsafe_allow_html=True)
