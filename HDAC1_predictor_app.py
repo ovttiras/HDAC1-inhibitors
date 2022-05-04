@@ -357,9 +357,20 @@ if models_option == 'ECFP4':
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No. compound': i+1}, index=[0])
-                    # predictions = pred_beta.set_index('No. compound.')
-                    st.dataframe(predictions)           
+                    predictions = pd.DataFrame({'No. compound': i+1,'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=[0])
+                    
+                    # CSS to inject contained in a string
+                    hide_table_row_index = """
+                                <style>
+                                tbody th {display:none}
+                                .blank {display:none}
+                                </style>
+                                """
+
+                    # Inject CSS with Markdown
+                    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+                   
+                    st.table(predictions)           
 
 
                     st.write('**Predicted fragments contribution for compound number **'+ str(i+1) + '**:**')
@@ -607,7 +618,6 @@ if models_option == 'RDKit':
                     smi = Chem.MolToSmiles(moldf[i])
                     mol=moldf[i]
                     im = Draw.MolToImage(mol)
-                    number=i+1
                     st.write('**COMPOUNDS NUMBER **' + str(i+1) + '**:**')
                     st.write('**2D structure of compound number **' + str(i+1) + '**:**')
                     st.image(im)
@@ -630,7 +640,7 @@ if models_option == 'RDKit':
                     blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
-                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No. compound': number}, index=[0])
+                    predictions = pd.DataFrame({'No. compound': i+1,'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=[0])
                     
                     # CSS to inject contained in a string
                     hide_table_row_index = """
@@ -642,7 +652,7 @@ if models_option == 'RDKit':
 
                     # Inject CSS with Markdown
                     st.markdown(hide_table_row_index, unsafe_allow_html=True)
-                    # predictions = pred_beta.set_index('No. compound.')
+                   
                     st.table(predictions)           
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
     
