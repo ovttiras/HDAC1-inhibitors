@@ -358,7 +358,7 @@ if models_option == 'ECFP4':
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
                     predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No. compound': i+1}, index=[0])
-                    predictions = pred_beta.set_index('No. compound.')
+                    # predictions = pred_beta.set_index('No. compound.')
                     st.dataframe(predictions)           
 
 
