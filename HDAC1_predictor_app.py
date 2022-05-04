@@ -38,7 +38,7 @@ from molvs import standardize_smiles
 ######################
 # Page Title
 ######################
-st.write("<h1 style='text-align: center; color: #FFA07A;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
+st.write("<h1 style='text-align: center; color: #FF7F50;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
 image = Image.open('app_logo.jpg')
 st.image(image, use_column_width=True)
 st.write("<h3 style='text-align: center; color: black;'> A machine learning Web application to assess the potential of histone deacetylase 1 (HDAC1) inhibitors.</h1>", unsafe_allow_html=True)
@@ -629,12 +629,10 @@ if models_option == 'RDKit':
                     blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
-                    pred_beta = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=None)
-                    st.dataframe(predictions)
 
-                    # st.write('**Smiles for compound number **'+ str(i+1) + '**:**', str(smi))
-                    # st.write('**HDAC1:** ', pred_consensus[i])
-                    # st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
+                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', str(smi))
+                    st.write('**HDAC1:** ', pred_consensus[i])
+                    st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
     
 st.text('© Oleg Tinkov, 2022')
