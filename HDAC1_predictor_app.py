@@ -331,7 +331,6 @@ if models_option == 'ECFP4':
                     return itertools.islice(enumerate(items), min_index, max_index)
 
                 for i, mol in paginator("Select a page", b):
-                    number=i+1
                     smi = Chem.MolToSmiles(b[i])
                     mol=b[i]
                     im = Draw.MolToImage(mol)
@@ -358,7 +357,7 @@ if models_option == 'ECFP4':
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No. compound': number}, index=[0])
+                    predictions = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i], 'No. compound': i+1}, index=[0])
                     predictions = pred_beta.set_index('No. compound.')
                     st.dataframe(predictions)           
 
