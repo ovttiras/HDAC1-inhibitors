@@ -629,7 +629,7 @@ if models_option == 'RDKit':
                     blk=makeblock(smi)
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
-                    pred_beta = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=None)
+                    pred_beta = pd.DataFrame({'SMILES': smi, 'HDAC1 activity': pred_consensus[i],'Applicability domain (AD)': cpd_AD_vs[i]}, index=[0])
                     st.dataframe(predictions)           
 
                     # st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
