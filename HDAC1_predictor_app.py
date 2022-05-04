@@ -331,6 +331,7 @@ if models_option == 'ECFP4':
                     return itertools.islice(enumerate(items), min_index, max_index)
 
                 for i, mol in paginator("Select a page", b):
+                    number=i+1
                     smi = Chem.MolToSmiles(b[i])
                     mol=b[i]
                     im = Draw.MolToImage(mol)
