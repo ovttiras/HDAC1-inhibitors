@@ -357,7 +357,7 @@ if models_option == 'ECFP4':
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
+                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', str(smi))
                     st.write('**HDAC1:** ', pred_consensus[i])
                     st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
 
@@ -573,7 +573,12 @@ if models_option == 'RDKit':
 
 
             # Print results for each molecules
-            if st.button('Show results and map of fragments contribution for each molecule separately'):
+            if "button_clicked" not in st.session_state:
+                st.session_state.button_clicked = False
+            def callback():
+                st.session_state.button_clicked=True
+
+            if (st.button('Show results and map of fragments contribution for each molecule separately', on_click=callback) or st.session_state.button_clicked):
                 st.header('**Prediction results:**')
 
                 items_on_page = st.slider('Select compounds on page', 1, 15, 3)
@@ -625,7 +630,7 @@ if models_option == 'RDKit':
                     render_mol(blk)
                     st.write('You can use the scroll wheel on your mouse to zoom in or out a 3D structure of compound')
 
-                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', smi)
+                    st.write('**Smiles for compound number **'+ str(i+1) + '**:**', str(smi))
                     st.write('**HDAC1:** ', pred_consensus[i])
                     st.write('**Applicability domain (AD):** ', cpd_AD_vs[i])
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
