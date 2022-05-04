@@ -1,5 +1,4 @@
 click==7.1.2
-ChEMBL_Structure_Pipeline==1.0.0
 ipykernel==6.13.0
 matplotlib== 3.5.0
 molvs==0.1.1
@@ -11,3 +10,4 @@ rdkit-pypi==2022.3.1
 scikit-learn==1.0.2
 stmol==0.0.7
 streamlit==1.8.0
+ChEMBL_Structure_Pipeline==1.0.0
