@@ -48,7 +48,7 @@ if st.button('Application description'):
 
 with open("manual.pdf", "rb") as file:
     btn=st.download_button(
-    label="click to download brief manual",
+    label="Click to download brief manual",
     data=file,
     file_name="manual of HDAC1  Predictor.pdf",
     mime="application/octet-stream"
