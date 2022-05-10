@@ -43,7 +43,7 @@ image = Image.open('app_logo.jpg')
 st.image(image, use_column_width=True)
 st.write("<h3 style='text-align: center; color: black;'> A machine learning Web application to assess the potential of histone deacetylase 1 (HDAC1) inhibitors.</h1>", unsafe_allow_html=True)
 if st.button('Application description'):
-    st.write('The HDAC1  Predictor application provides an alternative method for assessing the potential of chemicals to be Histone deacetylas 1 (HDAC1) inhibitors.  Compound is classified as active if the predicted IC50 value is  lower than mean IC50 value of the reference drug Vorinostat (11.08 nM)  otherwise compound is  labeled as inactive. This application makes predictions based on Quantitative Structure-Activity Relationship (QSAR) models build on curated datasets generated from ChEMBL database (ID: CHEMBL325). The consensus models were developed using open-source chemical descriptors based on ECFP4-like Morgan fingerprints and 2D RDKit descriptors, along with the random forest (RF), gradient boosting (GBM), support vector machines (SVM)  algorithms, using Python 3.7. The models were generated applying the best practices for QSAR model development and validation widely accepted by the community. Batch processing is available through https://github.com/ovttiras/HDAC1-inhibitors. For more information, please refer to our paper:')
+    st.write('The HDAC1  Predictor application provides an alternative method for assessing the potential of chemicals to be Histone deacetylas 1 (HDAC1) inhibitors.  Compound is classified as active if the predicted IC50 value is  lower than mean IC50 value of the reference drug Vorinostat (11.08 nM)  otherwise compound is  labeled as inactive. This application makes predictions based on Quantitative Structure-Activity Relationship (QSAR) models build on curated datasets generated from scientific articles. The consensus models were developed using open-source chemical descriptors based on ECFP4-like Morgan fingerprints and 2D RDKit descriptors, along with the random forest (RF), gradient boosting (GBM), support vector machines (SVM)  algorithms, using Python 3.7. The models were generated applying the best practices for QSAR model development and validation widely accepted by the community. Batch processing is available through https://github.com/ovttiras/HDAC1-inhibitors. For more information, please refer to our paper:')
 
 
 with open("manual.pdf", "rb") as file:
@@ -72,9 +72,8 @@ if models_option == 'ECFP4':
     scale = joblib.load('FP/HDAC1_ws_for SVM.pkl')
     load_model_SVM = pickle.load(open('FP/HDAC1_SVM_ECFP4.pkl', 'rb'))
     x_tr = loadtxt('FP/x_tr.csv', delimiter=',')
-    model_AD_limit = 4.11
     st.sidebar.header('Select input molecular files')
-        # Read SMILES input
+    # Read SMILES input
     SMILES = st.sidebar.checkbox('SMILES notations (*.smi)')
     if SMILES:
         SMILES_input = ""
@@ -120,7 +119,7 @@ if models_option == 'ECFP4':
 
             # load numpy array from csv file
             x_tr = loadtxt('FP/x_tr.csv', delimiter=',')
-            model_AD_limit = 4.11
+            model_AD_limit = 4.12
             neighbors_k_vs = pairwise_distances(x_tr, Y=X, n_jobs=-1)
             neighbors_k_vs.sort(0)
             similarity_vs = neighbors_k_vs
@@ -260,7 +259,7 @@ if models_option == 'ECFP4':
 
             # load numpy array from csv file
             x_tr = loadtxt('FP/x_tr.csv', delimiter=',')
-            model_AD_limit = 4.11
+            model_AD_limit = 4.12
             neighbors_k_vs = pairwise_distances(x_tr, Y=X, n_jobs=-1)
             neighbors_k_vs.sort(0)
             similarity_vs = neighbors_k_vs
@@ -446,7 +445,7 @@ if models_option == 'RDKit':
 
             # load numpy array from csv file
             x_tr = loadtxt('RDKit/x_tr.csv', delimiter=',')
-            model_AD_limit = 1290022998.45
+            model_AD_limit = 1290022998.14
             neighbors_k_vs = pairwise_distances(x_tr, Y=X, n_jobs=-1)
             neighbors_k_vs.sort(0)
             similarity_vs = neighbors_k_vs
@@ -564,7 +563,7 @@ if models_option == 'RDKit':
 
             # load numpy array from csv file
             x_tr = loadtxt('RDKit/x_tr.csv', delimiter=',')
-            model_AD_limit = 1290022998.45
+            model_AD_limit = 1290022998.14
             neighbors_k_vs = pairwise_distances(x_tr, Y=X, n_jobs=-1)
             neighbors_k_vs.sort(0)
             similarity_vs = neighbors_k_vs
@@ -672,5 +671,4 @@ if models_option == 'RDKit':
                     st.table(predictions)           
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
     
-st.text('© Oleg Tinkov, 2022')
-            
+st.text('© Oleg Tinkov, 2022')      

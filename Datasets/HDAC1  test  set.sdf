@@ -1,5 +1,5 @@
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  36 40  0  0  0  0            999 V2000
    -0.1712   -2.1269    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -79,21 +79,18 @@
  35 36  4  0  0  0  0
  27 36  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3828492
-
->  <Compound Key>
+>  <Compound name>
 10b
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  27 28  0  0  0  0            999 V2000
     5.7158   -4.1250    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -152,21 +149,18 @@ $$$$
   2 26  1  0  0  0  0
  26 27  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3759921
-
->  <Compound Key>
+>  <Compound name>
 9c
 
->  <Document ChEMBL ID>
-CHEMBL3758132
+>  <Source_DOI>
+10.1016/j.bmcl.2016.01.022
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  26 28  0  0  0  0            999 V2000
     0.7498   -0.7384    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -229,21 +223,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL483254
-
->  <Compound Key>
+>  <Compound name>
 LBH-589
 
->  <Document ChEMBL ID>
-CHEMBL3774354
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01342
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  41 45  0  0  0  0            999 V2000
     6.9246    2.3479    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -333,21 +324,18 @@ $$$$
  39 40  1  0  0  0  0
  40 41  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3827794
-
->  <Compound Key>
+>  <Compound name>
 10d
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  36 40  0  0  0  0            999 V2000
    -0.1712   -2.1269    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -427,21 +415,18 @@ $$$$
  35 36  4  0  0  0  0
  27 36  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3827660
-
->  <Compound Key>
+>  <Compound name>
 10u
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  41 45  0  0  0  0            999 V2000
     2.6378    3.1729    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -531,21 +516,18 @@ $$$$
  40 41  4  0  0  0  0
  13 41  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3828289
-
->  <Compound Key>
+>  <Compound name>
 10e
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  30 32  0  0  0  0            999 V2000
    -6.7326    3.4092    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -616,21 +598,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4790137
-
->  <Compound Key>
+>  <Compound name>
 15b
 
->  <Document ChEMBL ID>
-CHEMBL4765277
+>  <Source_DOI>
+10.1016/j.ejmech.2020.112189
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  30 32  0  0  0  0            999 V2000
    -6.7326    3.4092    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -701,21 +680,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4777182
-
->  <Compound Key>
+>  <Compound name>
 21a
 
->  <Document ChEMBL ID>
-CHEMBL4765277
+>  <Source_DOI>
+10.1016/j.ejmech.2020.112189
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  33 36  0  0  0  0            999 V2000
    -0.7145   -3.7125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -788,21 +764,18 @@ $$$$
  32 33  4  0  0  0  0
   7 33  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3335006
-
->  <Compound Key>
+>  <Compound name>
 1o
 
->  <Document ChEMBL ID>
-CHEMBL3351615
+>  <Source_DOI>
+10.1016/j.bmcl.2014.06.080
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  29 31  0  0  0  0            999 V2000
     8.4023    0.2439    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -871,21 +844,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4786350
-
->  <Compound Key>
+>  <Compound name>
 15m
 
->  <Document ChEMBL ID>
-CHEMBL4765277
+>  <Source_DOI>
+10.1016/j.ejmech.2020.112189
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  36 40  0  0  0  0            999 V2000
     8.1481    6.3882    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -965,21 +935,18 @@ $$$$
   2 35  1  0  0  0  0
  35 36  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4241141
-
->  <Compound Key>
+>  <Compound name>
 8c
 
->  <Document ChEMBL ID>
-CHEMBL4229424
+>  <Source_DOI>
+10.1016/j.bmc.2018.06.016
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  39 43  0  0  0  0            999 V2000
    -0.1712   -2.1269    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1065,21 +1032,18 @@ $$$$
  38 39  4  0  0  0  0
  30 39  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3828486
-
->  <Compound Key>
+>  <Compound name>
 10f
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  40 44  0  0  0  0            999 V2000
     7.1741   -2.8256    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1167,21 +1131,18 @@ $$$$
   2 39  1  0  0  0  0
  39 40  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3902778
-
->  <Compound Key>
+>  <Compound name>
 9h
 
->  <Document ChEMBL ID>
-CHEMBL3870325
+>  <Source_DOI>
+10.1016/j.bmc.2016.10.006
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  33 36  0  0  0  0            999 V2000
     7.6590   -2.1582    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1254,21 +1215,18 @@ $$$$
   2 32  1  0  0  0  0
  32 33  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3920583
-
->  <Compound Key>
+>  <Compound name>
 9a
 
->  <Document ChEMBL ID>
-CHEMBL3870325
+>  <Source_DOI>
+10.1016/j.bmc.2016.10.006
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  26 27  0  0  0  0            999 V2000
    -1.4289    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1325,21 +1283,18 @@ $$$$
   3 25  4  0  0  0  0
  25 26  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4102654
-
->  <Compound Key>
+>  <Compound name>
 15b
 
->  <Document ChEMBL ID>
-CHEMBL4033641
+>  <Source_DOI>
+10.1016/j.ejmech.2017.04.017
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  32 33  0  0  0  0            999 V2000
     8.4954   -2.0195    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1408,21 +1363,18 @@ $$$$
   2 31  1  0  0  0  0
  31 32  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4288076
-
->  <Compound Key>
+>  <Compound name>
 22
 
->  <Document ChEMBL ID>
-CHEMBL4251732
+>  <Source_DOI>
+10.1021/acsmedchemlett.7b00487
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  39 43  0  0  0  0            999 V2000
    -0.1712   -2.1269    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1508,21 +1460,18 @@ $$$$
  38 39  4  0  0  0  0
  30 39  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3828070
-
->  <Compound Key>
+>  <Compound name>
 10n
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 1
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  33 35  0  0  0  0            999 V2000
     1.9908   -7.6407    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1594,21 +1543,18 @@ $$$$
  32 33  4  0  0  0  0
   3 33  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4449889
-
->  <Compound Key>
+>  <Compound name>
 11h
 
->  <Document ChEMBL ID>
-CHEMBL4308883
+>  <Source_DOI>
+10.1016/j.bmcl.2018.11.027
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  35 39  0  0  0  0            999 V2000
    11.4143    1.4288    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1686,21 +1632,18 @@ $$$$
   2 34  1  0  0  0  0
  34 35  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4251261
-
->  <Compound Key>
+>  <Compound name>
 8b
 
->  <Document ChEMBL ID>
-CHEMBL4229424
+>  <Source_DOI>
+10.1016/j.bmc.2018.06.016
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  25 26  0  0  0  0            999 V2000
     4.2868   -4.1250    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1755,21 +1698,18 @@ $$$$
   2 24  1  0  0  0  0
  24 25  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3758251
-
->  <Compound Key>
+>  <Compound name>
 9a
 
->  <Document ChEMBL ID>
-CHEMBL3758132
+>  <Source_DOI>
+10.1016/j.bmcl.2016.01.022
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  44 47  0  0  0  0            999 V2000
     9.6880    5.3374    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1864,21 +1804,18 @@ $$$$
   2 43  1  0  0  0  0
  43 44  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4279657
-
->  <Compound Key>
+>  <Compound name>
 19
 
->  <Document ChEMBL ID>
-CHEMBL4251732
+>  <Source_DOI>
+10.1021/acsmedchemlett.7b00487
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  43 47  0  0  0  0            999 V2000
    -0.1712   -2.1269    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -1972,21 +1909,18 @@ $$$$
  42 43  4  0  0  0  0
  34 43  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3827056
-
->  <Compound Key>
+>  <Compound name>
 10g
 
->  <Document ChEMBL ID>
-CHEMBL3826921
+>  <Source_DOI>
+10.1021/acs.jmedchem.6b00579
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  26 27  0  0  0  0            999 V2000
    -0.7145   -4.5375    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2043,21 +1977,18 @@ $$$$
  19 26  4  0  0  0  0
  15 26  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4087230
-
->  <Compound Key>
+>  <Compound name>
 12
 
->  <Document ChEMBL ID>
-CHEMBL4033641
+>  <Source_DOI>
+10.1016/j.ejmech.2017.04.017
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  40 44  0  0  0  0            999 V2000
     7.1447  -11.5500    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2150,21 +2081,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4078014
-
->  <Compound Key>
+>  <Compound name>
 P2
 
->  <Document ChEMBL ID>
-CHEMBL4052667
+>  <Source_DOI>
+ 10.1016/j.bmc.2017.05.058
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  40 43  0  0  0  0            999 V2000
     2.1434   -2.8875    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2251,21 +2179,18 @@ $$$$
  37 39  1  0  0  0  0
  39 40  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4782846
-
->  <Compound Key>
+>  <Compound name>
 11j
 
->  <Document ChEMBL ID>
-CHEMBL4699570
+>  <Source_DOI>
+10.1016/j.bmcl.2020.127610
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  30 33  0  0  0  0            999 V2000
     0.0000   -2.4750    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2332,21 +2257,18 @@ $$$$
  29 30  4  0  0  0  0
   3 30  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4248226
-
->  <Compound Key>
+>  <Compound name>
 12b
 
->  <Document ChEMBL ID>
-CHEMBL4229424
+>  <Source_DOI>
+10.1016/j.bmc.2018.06.016
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  35 37  0  0  0  0            999 V2000
    -0.0393   -4.1242    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2422,21 +2344,18 @@ $$$$
   2 34  1  0  0  0  0
  34 35  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4281734
-
->  <Compound Key>
+>  <Compound name>
 16
 
->  <Document ChEMBL ID>
-CHEMBL4251732
+>  <Source_DOI>
+10.1021/acsmedchemlett.7b00487
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  40 43  0  0  0  0            999 V2000
     2.1434   -2.8875    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2523,21 +2442,18 @@ $$$$
  37 39  1  0  0  0  0
  39 40  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4743004
-
->  <Compound Key>
+>  <Compound name>
 11a
 
->  <Document ChEMBL ID>
-CHEMBL4699570
+>  <Source_DOI>
+10.1016/j.bmcl.2020.127610
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  27 29  0  0  0  0            999 V2000
    -5.7158   -4.1250    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2597,21 +2513,18 @@ $$$$
  26 27  4  0  0  0  0
   2 27  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3775662
-
->  <Compound Key>
+>  <Compound name>
 7b
 
->  <Document ChEMBL ID>
-CHEMBL3774354
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01342
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  28 30  0  0  0  0            999 V2000
     2.8579   -4.9500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2673,21 +2586,18 @@ $$$$
  27 28  1  0  0  0  0
   4 28  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3775072
-
->  <Compound Key>
+>  <Compound name>
 16d
 
->  <Document ChEMBL ID>
-CHEMBL3774354
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01342
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  40 43  0  0  0  0            999 V2000
    -0.7145   -6.1875    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2775,21 +2685,18 @@ $$$$
  32 40  1  0  0  0  0
 M  CHG  2  37   1  39  -1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4060953
-
->  <Compound Key>
+>  <Compound name>
 10b
 
->  <Document ChEMBL ID>
-CHEMBL4052685
+>  <Source_DOI>
+10.1016/j.bmc.2017.05.062
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  31 33  0  0  0  0            999 V2000
     6.4302   -1.2375    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2857,21 +2764,18 @@ $$$$
  28 30  1  0  0  0  0
  30 31  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3774890
-
->  <Compound Key>
+>  <Compound name>
 23bd
 
->  <Document ChEMBL ID>
-CHEMBL3774354
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01342
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  22 24  0  0  0  0            999 V2000
     1.4289    2.4750    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -2921,21 +2825,18 @@ $$$$
  21 22  4  0  0  0  0
   5 22  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3334992
-
->  <Compound Key>
+>  <Compound name>
 1a
 
->  <Document ChEMBL ID>
-CHEMBL3351615
+>  <Source_DOI>
+10.1016/j.bmcl.2014.06.080
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  37 40  0  0  0  0            999 V2000
    -0.7145   -1.2375    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3021,21 +2922,18 @@ M  SDT   1 MRV_IMPLICIT_H
 M  SDD   1     0.5304   -0.4125    DR    ALL  0       0  
 M  SED   1 IMPL_H1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4064933
-
->  <Compound Key>
+>  <Compound name>
 16ae
 
->  <Document ChEMBL ID>
-CHEMBL4043137
+>  <Source_DOI>
+10.1016/j.bmcl.2017.07.054
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  52 57  0  0  1  0            999 V2000
    12.9908   -3.4219    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3148,21 +3046,18 @@ $$$$
   2 51  1  0  0  0  0
  51 52  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL356769
-
->  <Compound Key>
+>  <Compound name>
 10
 
->  <Document ChEMBL ID>
-CHEMBL1165952
+>  <Source_DOI>
+10.1016/j.bmc.2010.03.080
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  24 26  0  0  0  0            999 V2000
     2.8579   -4.9500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3216,21 +3111,18 @@ $$$$
  23 24  1  0  0  0  0
   4 24  1  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3775581
-
->  <Compound Key>
+>  <Compound name>
 16a
 
->  <Document ChEMBL ID>
-CHEMBL3774354
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01342
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  38 42  0  0  0  0            999 V2000
     3.2879   -0.8455    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3314,21 +3206,18 @@ $$$$
  37 38  4  0  0  0  0
   3 38  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4244887
-
->  <Compound Key>
+>  <Compound name>
 8e
 
->  <Document ChEMBL ID>
-CHEMBL4229424
+>  <Source_DOI>
+10.1016/j.bmc.2018.06.016
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  36 38  0  0  1  0            999 V2000
    -0.7145   -6.1875    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3407,21 +3296,18 @@ $$$$
  28 36  1  0  0  0  0
 M  CHG  2  33   1  35  -1
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL4075124
-
->  <Compound Key>
+>  <Compound name>
 16b
 
->  <Document ChEMBL ID>
-CHEMBL4052685
+>  <Source_DOI>
+10.1016/j.bmc.2017.05.062
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  38 42  0  0  0  0            999 V2000
     0.0000   -5.7750    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3505,21 +3391,18 @@ $$$$
   7 38  4  0  0  0  0
   3 38  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3217996
-
->  <Compound Key>
+>  <Compound name>
 8a
 
->  <Document ChEMBL ID>
-CHEMBL3217617
+>  <Source_DOI>
+10.1039/C2MD00317A
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  37 41  0  0  0  0            999 V2000
     0.0000   -5.7750    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3601,21 +3484,18 @@ $$$$
   7 37  4  0  0  0  0
   3 37  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3217994
-
->  <Compound Key>
+>  <Compound name>
 8c
 
->  <Document ChEMBL ID>
-CHEMBL3217617
+>  <Source_DOI>
+10.1039/C2MD00317A
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  38 42  0  0  0  0            999 V2000
     0.0000   -5.7750    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3699,21 +3579,18 @@ $$$$
   7 38  4  0  0  0  0
   3 38  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL3217995
-
->  <Compound Key>
+>  <Compound name>
 8b
 
->  <Document ChEMBL ID>
-CHEMBL3217617
+>  <Source_DOI>
+10.1039/C2MD00317A
 
 >  <HDAC1>
 0
 
 $$$$
 
-  Mrv1808 03272221012D          
+  Mrv1808 05102221282D          
 
  22 24  0  0  0  0            999 V2000
    -2.5990   -3.6207    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
@@ -3763,14 +3640,11 @@ $$$$
  21 22  4  0  0  0  0
   3 22  4  0  0  0  0
 M  END
->  <Molecule ChEMBL ID>
-CHEMBL2170177
-
->  <Compound Key>
+>  <Compound name>
 PCI-34051
 
->  <Document ChEMBL ID>
-CHEMBL3769398
+>  <Source_DOI>
+10.1021/acs.jmedchem.5b01632
 
 >  <HDAC1>
 0
