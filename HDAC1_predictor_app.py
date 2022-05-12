@@ -541,6 +541,7 @@ if models_option == 'RDKit':
             for m in moldf:
                 descr_tr.append(calc.CalcDescriptors(m))
                 X = np.asarray(descr_tr)
+            X[:] = np.nan_to_num(X)
                                 
             ######################
             # Pre-built model
