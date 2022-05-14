@@ -31,7 +31,6 @@ from IPython.display import HTML
 import matplotlib.pyplot as plt
 from stmol import showmol
 import py3Dmol
-import chembl_structure_pipeline
 from molvs import standardize_smiles
 
 
@@ -209,13 +208,13 @@ if models_option == 'ECFP4':
             # Standardization SDF file 
             records = []
             for i in range(len(all_mols)):
-                record = Chem.MolToMolBlock(all_mols[i])
+                record = Chem.MolToSmiles(all_mols[i])
                 records.append(record)
             
             mols_ts = []
             for i,record in enumerate(records):
-                standard_record = chembl_structure_pipeline.standardize_molblock(record)
-                m = Chem.MolFromMolBlock(standard_record)
+                standard_record = standardize_smiles(record)
+                m = Chem.FromSmiles(standard_record)
                 mols_ts.append(m)
            
             moldf = []
@@ -514,13 +513,13 @@ if models_option == 'RDKit':
             # Standardization SDF file 
             records = []
             for i in range(len(all_mols)):
-                record = Chem.MolToMolBlock(all_mols[i])
+                record = Chem.MolToSmiles(all_mols[i])
                 records.append(record)
             
             mols_ts = []
             for i,record in enumerate(records):
-                standard_record = chembl_structure_pipeline.standardize_molblock(record)
-                m = Chem.MolFromMolBlock(standard_record)
+                standard_record = standardize_smiles(record)
+                m = Chem.FromSmiles(standard_record)
                 mols_ts.append(m)
            
             moldf = []
