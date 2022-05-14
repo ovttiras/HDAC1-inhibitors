@@ -214,7 +214,7 @@ if models_option == 'ECFP4':
             mols_ts = []
             for i,record in enumerate(records):
                 standard_record = standardize_smiles(record)
-                m = Chem.FromSmiles(standard_record)
+                m = Chem.MolFromSmiles(standard_record)
                 mols_ts.append(m)
            
             moldf = []
@@ -519,7 +519,7 @@ if models_option == 'RDKit':
             mols_ts = []
             for i,record in enumerate(records):
                 standard_record = standardize_smiles(record)
-                m = Chem.FromSmiles(standard_record)
+                m = Chem.MolFromSmiles(standard_record)
                 mols_ts.append(m)
            
             moldf = []
