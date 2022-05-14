@@ -6,9 +6,8 @@ numpy==1.19.2
 opencv-python==4.2.0.32
 pandas==1.3.5
 py3dmol==1.8.0
+rdkit-pypi==2022.3.1
 scikit-learn==1.0.2
 stmol==0.0.7
 streamlit==1.8.0
-git+https://github.com/rdkit/rdkit.git
 git+https://github.com/chembl/ChEMBL_Structure_Pipeline.git
-
