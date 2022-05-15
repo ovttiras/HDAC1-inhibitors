@@ -31,7 +31,6 @@ from IPython.display import HTML
 import matplotlib.pyplot as plt
 from stmol import showmol
 import py3Dmol
-import chembl_structure_pipeline
 from molvs import standardize_smiles
 
 
@@ -182,6 +181,7 @@ if models_option == 'ECFP4':
             all_mols =[]
             wrong_structure=[]
             wrong_smiles=[]
+            bad_index=[]
             for i, m in enumerate(supplier):
                 structure = Chem.Mol(m)
                 all_mols.append(structure)
@@ -191,6 +191,7 @@ if models_option == 'ECFP4':
                     failed_mols.append(m)
                     wrong_smiles.append(Chem.MolToSmiles(m))
                     wrong_structure.append(str(i+1))
+                    bad_index.append(i)
 
            
             st.write('Original data: ', len(all_mols), 'molecules')
@@ -206,22 +207,19 @@ if models_option == 'ECFP4':
                 bad_molecules = bad_molecules.set_index('No.')
                 st.dataframe(bad_molecules)
 
-            # Standardization SDF file 
+            # Standardization SDF file
+            all_mols[:] = [x for i,x in enumerate(all_mols) if i not in bad_index] 
             records = []
             for i in range(len(all_mols)):
-                record = Chem.MolToMolBlock(all_mols[i])
+                record = Chem.MolToSmiles(all_mols[i])
                 records.append(record)
             
-            mols_ts = []
-            for i,record in enumerate(records):
-                standard_record = chembl_structure_pipeline.standardize_molblock(record)
-                m = Chem.MolFromMolBlock(standard_record)
-                mols_ts.append(m)
-           
             moldf = []
-            for val in mols_ts:
-                if val != None :
-                    moldf.append(val)
+            for i,record in enumerate(records):
+                standard_record = standardize_smiles(record)
+                m = Chem.MolFromSmiles(standard_record)
+                moldf.append(m)
+           
             st.write('Kept data: ', len(moldf), 'molecules')
 
              # Calculate molecular descriptors
@@ -487,6 +485,7 @@ if models_option == 'RDKit':
             all_mols =[]
             wrong_structure=[]
             wrong_smiles=[]
+            bad_index=[]
             for i, m in enumerate(supplier):
                 structure = Chem.Mol(m)
                 all_mols.append(structure)
@@ -496,6 +495,7 @@ if models_option == 'RDKit':
                     failed_mols.append(m)
                     wrong_smiles.append(Chem.MolToSmiles(m))
                     wrong_structure.append(str(i+1))
+                    bad_index.append(i)
 
            
             st.write('Original data: ', len(all_mols), 'molecules')
@@ -511,22 +511,19 @@ if models_option == 'RDKit':
                 bad_molecules = bad_molecules.set_index('No.')
                 st.dataframe(bad_molecules)
 
-            # Standardization SDF file 
+            # Standardization SDF file
+            all_mols[:] = [x for i,x in enumerate(all_mols) if i not in bad_index] 
             records = []
             for i in range(len(all_mols)):
-                record = Chem.MolToMolBlock(all_mols[i])
+                record = Chem.MolToSmiles(all_mols[i])
                 records.append(record)
             
-            mols_ts = []
-            for i,record in enumerate(records):
-                standard_record = chembl_structure_pipeline.standardize_molblock(record)
-                m = Chem.MolFromMolBlock(standard_record)
-                mols_ts.append(m)
-           
             moldf = []
-            for val in mols_ts:
-                if val != None :
-                    moldf.append(val)
+            for i,record in enumerate(records):
+                standard_record = standardize_smiles(record)
+                m = Chem.MolFromSmiles(standard_record)
+                moldf.append(m)
+           
             st.write('Kept data: ', len(moldf), 'molecules')
     
         
