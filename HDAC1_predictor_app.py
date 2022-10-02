@@ -4,7 +4,6 @@
 from matplotlib import cm
 from rdkit.Chem.Draw import SimilarityMaps
 from numpy import loadtxt
-from queue import Empty
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -15,20 +14,11 @@ from rdkit.Chem import Draw
 from rdkit.Chem import AllChem, Descriptors
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from rdkit.Chem.AllChem import GetMorganFingerprintAsBitVect
-from rdkit.Chem import PandasTools
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
-from sklearn.model_selection import permutation_test_score
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_predict
 from sklearn import metrics
-from sklearn.metrics import cohen_kappa_score
-from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import pairwise_distances
 import joblib
 from IPython.display import HTML
-import matplotlib.pyplot as plt
 from stmol import showmol
 import py3Dmol
 from molvs import standardize_smiles
