@@ -8,4 +8,4 @@ rdkit-pypi==2021.3.3
 scikit-learn==1.0.2
 stmol==0.0.7
 streamlit==1.8.0
-ipython==8.5.0
+ipython==8.4.0
