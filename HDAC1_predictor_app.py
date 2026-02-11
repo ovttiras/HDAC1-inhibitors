@@ -2,8 +2,7 @@
 # Import libraries
 ######################
 from matplotlib import cm
-from rdkit.Chem.Draw import SimilarityMaps, rdMolDraw2D
-from rdkit.Chem.Draw import rdMolDraw2D
+from rdkit.Chem.Draw import SimilarityMaps
 from numpy import loadtxt
 import numpy as np
 import pandas as pd
@@ -28,38 +27,6 @@ from molvs import standardize_smiles
 ######################
 # Page Title
 ######################
-def fpFunction(mol):
-    return SimilarityMaps.GetMorganFingerprint(mol, radius=2)
-
-
-def getProba(fp, model):
-    return model.predict_proba([fp])[0][1]
-    
-def draw_similarity_map(mol, model, size=(450, 450)):
-    """
-    Draw similarity map for RDKit + Streamlit (modern API safe)
-    """
-    if mol is None:
-        st.error("Invalid molecule")
-        return
-
-    drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
-    drawer.drawOptions().clearBackground = False
-
-    # fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(
-    #     mol,
-    #     fpFunction,
-    #     lambda x: getProba(x, model),
-    #     drawer
-    # )
-
-    # drawer.FinishDrawing()
-    # png = drawer.GetDrawingText()
-
-st.write("**Predicted fragments contribution:**")
-draw_similarity_map(m, load_model_RF)
-
-
 st.write("<h1 style='text-align: center; color: #FF7F50;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
 image = Image.open('app_logo.jpg')
 st.image(image, use_column_width=True)
