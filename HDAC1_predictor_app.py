@@ -162,9 +162,47 @@ if models_option == 'ECFP4':
             # Calculate atom weights
             weights = getAtomWeights(m, load_model_RF, fpFunction)
             
-            # Create similarity map using GetSimilarityMap
-            drawer = rdMolDraw2D.MolDraw2DCairo(400, 400)
-            fig = SimilarityMaps.GetSimilarityMap(m, weights=weights, draw2d=drawer, colorMap=cm.PiYG_r)
+            # Create similarity map manually using Draw.MolToImage with atom colors
+            def createSimilarityMap(mol, weights, size=(400, 400)):
+                """Create a similarity map visualization"""
+                import matplotlib.pyplot as plt
+                from matplotlib.colors import Normalize
+                from io import BytesIO
+                
+                # Normalize weights
+                weights_array = np.array(weights)
+                if len(weights_array) == 0 or weights_array.max() == weights_array.min():
+                    # If all weights are the same, use default colors
+                    norm = Normalize(vmin=-1, vmax=1, vcenter=0)
+                else:
+                    norm = Normalize(vmin=weights_array.min(), vmax=weights_array.max(), vcenter=0)
+                
+                # Create color map (PiYG: green for negative, magenta for positive)
+                colors = cm.PiYG_r(norm(weights_array))
+                
+                # Convert to RDKit color format (R, G, B tuples)
+                atom_colors = {}
+                for i, color in enumerate(colors):
+                    atom_colors[i] = (color[0], color[1], color[2])
+                
+                # Draw molecule with colored atoms
+                drawer = Draw.MolDraw2DCairo(size[0], size[1])
+                opts = drawer.drawOptions()
+                drawer.DrawMolecule(mol, highlightAtoms=list(range(len(weights))), 
+                                   highlightAtomColors=atom_colors)
+                drawer.FinishDrawing()
+                
+                # Convert to PIL Image and then to matplotlib figure
+                img_data = drawer.GetDrawingText()
+                img = Image.open(BytesIO(img_data))
+                
+                fig, ax = plt.subplots(figsize=(size[0]/100, size[1]/100))
+                ax.imshow(img)
+                ax.axis('off')
+                plt.tight_layout()
+                return fig
+            
+            fig = createSimilarityMap(m, weights)
             st.write('**Predicted fragments contribution:**')
             st.pyplot(fig)
             st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
@@ -288,6 +326,45 @@ if models_option == 'ECFP4':
 
             # Generate maps of fragment contribution
             # Alternative approach compatible with RDKit 2024.09.1+
+            def createSimilarityMap(mol, weights, size=(400, 400)):
+                """Create a similarity map visualization"""
+                import matplotlib.pyplot as plt
+                from matplotlib.colors import Normalize
+                from io import BytesIO
+                
+                # Normalize weights
+                weights_array = np.array(weights)
+                if len(weights_array) == 0 or weights_array.max() == weights_array.min():
+                    # If all weights are the same, use default colors
+                    norm = Normalize(vmin=-1, vmax=1, vcenter=0)
+                else:
+                    norm = Normalize(vmin=weights_array.min(), vmax=weights_array.max(), vcenter=0)
+                
+                # Create color map (PiYG: green for negative, magenta for positive)
+                colors = cm.PiYG_r(norm(weights_array))
+                
+                # Convert to RDKit color format (R, G, B tuples)
+                atom_colors = {}
+                for i, color in enumerate(colors):
+                    atom_colors[i] = (color[0], color[1], color[2])
+                
+                # Draw molecule with colored atoms
+                drawer = Draw.MolDraw2DCairo(size[0], size[1])
+                opts = drawer.drawOptions()
+                drawer.DrawMolecule(mol, highlightAtoms=list(range(len(weights))), 
+                                   highlightAtomColors=atom_colors)
+                drawer.FinishDrawing()
+                
+                # Convert to PIL Image and then to matplotlib figure
+                img_data = drawer.GetDrawingText()
+                img = Image.open(BytesIO(img_data))
+                
+                fig, ax = plt.subplots(figsize=(size[0]/100, size[1]/100))
+                ax.imshow(img)
+                ax.axis('off')
+                plt.tight_layout()
+                return fig
+            
             def getAtomWeights(mol, model, fpFunction):
                 """Calculate atom weights by comparing predictions with and without each atom"""
                 
@@ -437,8 +514,7 @@ if models_option == 'ECFP4':
                     st.write('**Predicted fragments contribution for compound number **'+ str(i+1) + '**:**')
                     # Calculate atom weights and create similarity map
                     weights = getAtomWeights(mol, load_model_RF, fpFunction)
-                    drawer = rdMolDraw2D.MolDraw2DCairo(400, 400)
-                    fig = SimilarityMaps.GetSimilarityMap(mol, weights=weights, draw2d=drawer, colorMap=cm.PiYG_r)
+                    fig = createSimilarityMap(mol, weights)
                     st.pyplot(fig)
                     st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
