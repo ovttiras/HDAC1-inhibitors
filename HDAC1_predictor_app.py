@@ -56,8 +56,8 @@ def draw_similarity_map(mol, model, size=(450, 450)):
     # drawer.FinishDrawing()
     # png = drawer.GetDrawingText()
 
-    st.write("**Predicted fragments contribution:**")
-   draw_similarity_map(m, load_model_RF)
+st.write("**Predicted fragments contribution:**")
+draw_similarity_map(m, load_model_RF)
 
 
 st.write("<h1 style='text-align: center; color: #FF7F50;'> HDAC1 PREDICTOR v.1.0</h1>", unsafe_allow_html=True)
