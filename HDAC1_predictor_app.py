@@ -173,12 +173,22 @@ if models_option == 'ECFP4':
                 weights_array = np.array(weights)
                 if len(weights_array) == 0 or weights_array.max() == weights_array.min():
                     # If all weights are the same, use default colors
-                    norm = Normalize(vmin=-1, vmax=1, vcenter=0)
+                    weights_normalized = np.zeros_like(weights_array)
                 else:
-                    norm = Normalize(vmin=weights_array.min(), vmax=weights_array.max(), vcenter=0)
+                    # Manual normalization centered at zero
+                    vmin = weights_array.min()
+                    vmax = weights_array.max()
+                    if vmin < 0 and vmax > 0:
+                        # Center normalization at zero: map [-max(abs), +max(abs)] to [0, 1]
+                        abs_max = max(abs(vmin), abs(vmax))
+                        weights_normalized = (weights_array + abs_max) / (2 * abs_max)
+                    else:
+                        # Regular normalization if all weights are on one side
+                        norm = Normalize(vmin=vmin, vmax=vmax)
+                        weights_normalized = norm(weights_array)
                 
                 # Create color map (PiYG: green for negative, magenta for positive)
-                colors = cm.PiYG_r(norm(weights_array))
+                colors = cm.PiYG_r(weights_normalized)
                 
                 # Convert to RDKit color format (R, G, B tuples)
                 atom_colors = {}
@@ -336,12 +346,22 @@ if models_option == 'ECFP4':
                 weights_array = np.array(weights)
                 if len(weights_array) == 0 or weights_array.max() == weights_array.min():
                     # If all weights are the same, use default colors
-                    norm = Normalize(vmin=-1, vmax=1, vcenter=0)
+                    weights_normalized = np.zeros_like(weights_array)
                 else:
-                    norm = Normalize(vmin=weights_array.min(), vmax=weights_array.max(), vcenter=0)
+                    # Manual normalization centered at zero
+                    vmin = weights_array.min()
+                    vmax = weights_array.max()
+                    if vmin < 0 and vmax > 0:
+                        # Center normalization at zero: map [-max(abs), +max(abs)] to [0, 1]
+                        abs_max = max(abs(vmin), abs(vmax))
+                        weights_normalized = (weights_array + abs_max) / (2 * abs_max)
+                    else:
+                        # Regular normalization if all weights are on one side
+                        norm = Normalize(vmin=vmin, vmax=vmax)
+                        weights_normalized = norm(weights_array)
                 
                 # Create color map (PiYG: green for negative, magenta for positive)
-                colors = cm.PiYG_r(norm(weights_array))
+                colors = cm.PiYG_r(weights_normalized)
                 
                 # Convert to RDKit color format (R, G, B tuples)
                 atom_colors = {}
