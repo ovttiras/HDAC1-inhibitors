@@ -2,7 +2,7 @@
 # Import libraries
 ######################
 from matplotlib import cm
-from rdkit.Chem.Draw import SimilarityMaps
+from rdkit.Chem.Draw import SimilarityMaps, rdMolDraw2D
 from numpy import loadtxt
 import numpy as np
 import pandas as pd
@@ -11,7 +11,7 @@ import pickle
 from PIL import Image
 from rdkit import Chem, DataStructs
 from rdkit.Chem import Draw
-from rdkit.Chem import AllChem, Descriptors
+from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from rdkit.Chem.AllChem import GetMorganFingerprintAsBitVect
 from sklearn.preprocessing import StandardScaler
@@ -120,21 +120,51 @@ if models_option == 'ECFP4':
             st.write('**Applicability domain (AD)**: ', cpd_AD_vs[0])
 
             # Generate maps of fragment contribution
+            # Alternative approach compatible with RDKit 2024.09.1+
+            def getAtomWeights(mol, model, fpFunction):
+                """Calculate atom weights by comparing predictions with and without each atom"""
+                
+                # Get base fingerprint and prediction
+                base_fp = fpFunction(mol)
+                arr_base = np.zeros((1,))
+                DataStructs.ConvertToNumpyArray(base_fp, arr_base)
+                base_pred = model.predict_proba(arr_base.reshape(1, -1))[0][1]
+                
+                # Calculate weights for each atom
+                weights = []
+                for atomIdx in range(mol.GetNumAtoms()):
+                    # Create a copy without this atom
+                    mol_copy = Chem.RWMol(mol)
+                    mol_copy.RemoveAtom(atomIdx)
+                    mol_copy = mol_copy.GetMol()
+                    
+                    try:
+                        fp_copy = fpFunction(mol_copy)
+                        arr_copy = np.zeros((1,))
+                        DataStructs.ConvertToNumpyArray(fp_copy, arr_copy)
+                        pred_copy = model.predict_proba(arr_copy.reshape(1, -1))[0][1]
+                        weight = base_pred - pred_copy
+                    except:
+                        weight = 0.0
+                    weights.append(weight)
+                
+                return weights
             
-            def getProba(fp, predictionFunction):
-                return predictionFunction((fp,))[0][1]
-
-
-            def fpFunction(m, atomId=-1):
-                fp = SimilarityMaps.GetMorganFingerprint(m,
-                                                        atomId=atomId,
-                                                        radius=2,
-                                                        nBits=1024)
+            def fpFunction(mol):
+                # Use GetMorganFingerprintAsBitVect which returns ExplicitBitVect
+                fp = AllChem.GetMorganFingerprintAsBitVect(mol,
+                                                           radius=2,
+                                                           nBits=1024,
+                                                           useFeatures=False,
+                                                           useChirality=False)
                 return fp
-
-
-            fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(
-                m, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
+            
+            # Calculate atom weights
+            weights = getAtomWeights(m, load_model_RF, fpFunction)
+            
+            # Create similarity map using GetSimilarityMap
+            drawer = rdMolDraw2D.MolDraw2DCairo(400, 400)
+            fig = SimilarityMaps.GetSimilarityMap(m, weights=weights, draw2d=drawer, colorMap=cm.PiYG_r)
             st.write('**Predicted fragments contribution:**')
             st.pyplot(fig)
             st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
@@ -257,15 +287,43 @@ if models_option == 'ECFP4':
 
 
             # Generate maps of fragment contribution
-            def getProba(fp, predictionFunction):
-                return predictionFunction((fp,))[0][1]
-
-
-            def fpFunction(m, atomId=-1):
-                fp = SimilarityMaps.GetMorganFingerprint(mol,
-                                                        atomId=atomId,
-                                                        radius=2,
-                                                        nBits=1024)
+            # Alternative approach compatible with RDKit 2024.09.1+
+            def getAtomWeights(mol, model, fpFunction):
+                """Calculate atom weights by comparing predictions with and without each atom"""
+                
+                # Get base fingerprint and prediction
+                base_fp = fpFunction(mol)
+                arr_base = np.zeros((1,))
+                DataStructs.ConvertToNumpyArray(base_fp, arr_base)
+                base_pred = model.predict_proba(arr_base.reshape(1, -1))[0][1]
+                
+                # Calculate weights for each atom
+                weights = []
+                for atomIdx in range(mol.GetNumAtoms()):
+                    # Create a copy without this atom
+                    mol_copy = Chem.RWMol(mol)
+                    mol_copy.RemoveAtom(atomIdx)
+                    mol_copy = mol_copy.GetMol()
+                    
+                    try:
+                        fp_copy = fpFunction(mol_copy)
+                        arr_copy = np.zeros((1,))
+                        DataStructs.ConvertToNumpyArray(fp_copy, arr_copy)
+                        pred_copy = model.predict_proba(arr_copy.reshape(1, -1))[0][1]
+                        weight = base_pred - pred_copy
+                    except:
+                        weight = 0.0
+                    weights.append(weight)
+                
+                return weights
+            
+            def fpFunction(mol):
+                # Use GetMorganFingerprintAsBitVect which returns ExplicitBitVect
+                fp = AllChem.GetMorganFingerprintAsBitVect(mol,
+                                                           radius=2,
+                                                           nBits=1024,
+                                                           useFeatures=False,
+                                                           useChirality=False)
                 return fp
             #Print and download common results
 
@@ -377,7 +435,10 @@ if models_option == 'ECFP4':
 
 
                     st.write('**Predicted fragments contribution for compound number **'+ str(i+1) + '**:**')
-                    fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(mol, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
+                    # Calculate atom weights and create similarity map
+                    weights = getAtomWeights(mol, load_model_RF, fpFunction)
+                    drawer = rdMolDraw2D.MolDraw2DCairo(400, 400)
+                    fig = SimilarityMaps.GetSimilarityMap(mol, weights=weights, draw2d=drawer, colorMap=cm.PiYG_r)
                     st.pyplot(fig)
                     st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
