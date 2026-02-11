@@ -2,7 +2,7 @@
 # Import libraries
 ######################
 from matplotlib import cm
-from rdkit.Chem.Draw import SimilarityMaps, rdMolDraw2D
+from rdkit.Chem.Draw import SimilarityMaps
 from numpy import loadtxt
 import numpy as np
 import pandas as pd
@@ -11,7 +11,7 @@ import pickle
 from PIL import Image
 from rdkit import Chem, DataStructs
 from rdkit.Chem import Draw
-from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
+from rdkit.Chem import AllChem, Descriptors
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from rdkit.Chem.AllChem import GetMorganFingerprintAsBitVect
 from sklearn.preprocessing import StandardScaler
@@ -120,99 +120,21 @@ if models_option == 'ECFP4':
             st.write('**Applicability domain (AD)**: ', cpd_AD_vs[0])
 
             # Generate maps of fragment contribution
-            # Alternative approach compatible with RDKit 2024.09.1+
-            def getAtomWeights(mol, model, fpFunction):
-                """Calculate atom weights by comparing predictions with and without each atom"""
-                
-                # Get base fingerprint and prediction
-                base_fp = fpFunction(mol)
-                arr_base = np.zeros((1,))
-                DataStructs.ConvertToNumpyArray(base_fp, arr_base)
-                base_pred = model.predict_proba(arr_base.reshape(1, -1))[0][1]
-                
-                # Calculate weights for each atom
-                weights = []
-                for atomIdx in range(mol.GetNumAtoms()):
-                    # Create a copy without this atom
-                    mol_copy = Chem.RWMol(mol)
-                    mol_copy.RemoveAtom(atomIdx)
-                    mol_copy = mol_copy.GetMol()
-                    
-                    try:
-                        fp_copy = fpFunction(mol_copy)
-                        arr_copy = np.zeros((1,))
-                        DataStructs.ConvertToNumpyArray(fp_copy, arr_copy)
-                        pred_copy = model.predict_proba(arr_copy.reshape(1, -1))[0][1]
-                        weight = base_pred - pred_copy
-                    except:
-                        weight = 0.0
-                    weights.append(weight)
-                
-                return weights
             
-            def fpFunction(mol):
-                # Use GetMorganFingerprintAsBitVect which returns ExplicitBitVect
-                fp = AllChem.GetMorganFingerprintAsBitVect(mol,
-                                                           radius=2,
-                                                           nBits=1024,
-                                                           useFeatures=False,
-                                                           useChirality=False)
+            def getProba(fp, predictionFunction):
+                return predictionFunction((fp,))[0][1]
+
+
+            def fpFunction(m, atomId=-1):
+                fp = SimilarityMaps.GetMorganFingerprint(m,
+                                                        atomId=atomId,
+                                                        radius=2,
+                                                        nBits=1024)
                 return fp
-            
-            # Calculate atom weights
-            weights = getAtomWeights(m, load_model_RF, fpFunction)
-            
-            # Create similarity map manually using Draw.MolToImage with atom colors
-            def createSimilarityMap(mol, weights, size=(400, 400)):
-                """Create a similarity map visualization"""
-                import matplotlib.pyplot as plt
-                from matplotlib.colors import Normalize
-                from io import BytesIO
-                
-                # Normalize weights
-                weights_array = np.array(weights)
-                if len(weights_array) == 0 or weights_array.max() == weights_array.min():
-                    # If all weights are the same, use default colors
-                    weights_normalized = np.zeros_like(weights_array)
-                else:
-                    # Manual normalization centered at zero
-                    vmin = weights_array.min()
-                    vmax = weights_array.max()
-                    if vmin < 0 and vmax > 0:
-                        # Center normalization at zero: map [-max(abs), +max(abs)] to [0, 1]
-                        abs_max = max(abs(vmin), abs(vmax))
-                        weights_normalized = (weights_array + abs_max) / (2 * abs_max)
-                    else:
-                        # Regular normalization if all weights are on one side
-                        norm = Normalize(vmin=vmin, vmax=vmax)
-                        weights_normalized = norm(weights_array)
-                
-                # Create color map (PiYG: green for negative, magenta for positive)
-                colors = cm.PiYG_r(weights_normalized)
-                
-                # Convert to RDKit color format (R, G, B tuples)
-                atom_colors = {}
-                for i, color in enumerate(colors):
-                    atom_colors[i] = (color[0], color[1], color[2])
-                
-                # Draw molecule with colored atoms
-                drawer = Draw.MolDraw2DCairo(size[0], size[1])
-                opts = drawer.drawOptions()
-                drawer.DrawMolecule(mol, highlightAtoms=list(range(len(weights))), 
-                                   highlightAtomColors=atom_colors)
-                drawer.FinishDrawing()
-                
-                # Convert to PIL Image and then to matplotlib figure
-                img_data = drawer.GetDrawingText()
-                img = Image.open(BytesIO(img_data))
-                
-                fig, ax = plt.subplots(figsize=(size[0]/100, size[1]/100))
-                ax.imshow(img)
-                ax.axis('off')
-                plt.tight_layout()
-                return fig
-            
-            fig = createSimilarityMap(m, weights)
+
+
+            fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(
+                m, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
             st.write('**Predicted fragments contribution:**')
             st.pyplot(fig)
             st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
@@ -335,92 +257,15 @@ if models_option == 'ECFP4':
 
 
             # Generate maps of fragment contribution
-            # Alternative approach compatible with RDKit 2024.09.1+
-            def createSimilarityMap(mol, weights, size=(400, 400)):
-                """Create a similarity map visualization"""
-                import matplotlib.pyplot as plt
-                from matplotlib.colors import Normalize
-                from io import BytesIO
-                
-                # Normalize weights
-                weights_array = np.array(weights)
-                if len(weights_array) == 0 or weights_array.max() == weights_array.min():
-                    # If all weights are the same, use default colors
-                    weights_normalized = np.zeros_like(weights_array)
-                else:
-                    # Manual normalization centered at zero
-                    vmin = weights_array.min()
-                    vmax = weights_array.max()
-                    if vmin < 0 and vmax > 0:
-                        # Center normalization at zero: map [-max(abs), +max(abs)] to [0, 1]
-                        abs_max = max(abs(vmin), abs(vmax))
-                        weights_normalized = (weights_array + abs_max) / (2 * abs_max)
-                    else:
-                        # Regular normalization if all weights are on one side
-                        norm = Normalize(vmin=vmin, vmax=vmax)
-                        weights_normalized = norm(weights_array)
-                
-                # Create color map (PiYG: green for negative, magenta for positive)
-                colors = cm.PiYG_r(weights_normalized)
-                
-                # Convert to RDKit color format (R, G, B tuples)
-                atom_colors = {}
-                for i, color in enumerate(colors):
-                    atom_colors[i] = (color[0], color[1], color[2])
-                
-                # Draw molecule with colored atoms
-                drawer = Draw.MolDraw2DCairo(size[0], size[1])
-                opts = drawer.drawOptions()
-                drawer.DrawMolecule(mol, highlightAtoms=list(range(len(weights))), 
-                                   highlightAtomColors=atom_colors)
-                drawer.FinishDrawing()
-                
-                # Convert to PIL Image and then to matplotlib figure
-                img_data = drawer.GetDrawingText()
-                img = Image.open(BytesIO(img_data))
-                
-                fig, ax = plt.subplots(figsize=(size[0]/100, size[1]/100))
-                ax.imshow(img)
-                ax.axis('off')
-                plt.tight_layout()
-                return fig
-            
-            def getAtomWeights(mol, model, fpFunction):
-                """Calculate atom weights by comparing predictions with and without each atom"""
-                
-                # Get base fingerprint and prediction
-                base_fp = fpFunction(mol)
-                arr_base = np.zeros((1,))
-                DataStructs.ConvertToNumpyArray(base_fp, arr_base)
-                base_pred = model.predict_proba(arr_base.reshape(1, -1))[0][1]
-                
-                # Calculate weights for each atom
-                weights = []
-                for atomIdx in range(mol.GetNumAtoms()):
-                    # Create a copy without this atom
-                    mol_copy = Chem.RWMol(mol)
-                    mol_copy.RemoveAtom(atomIdx)
-                    mol_copy = mol_copy.GetMol()
-                    
-                    try:
-                        fp_copy = fpFunction(mol_copy)
-                        arr_copy = np.zeros((1,))
-                        DataStructs.ConvertToNumpyArray(fp_copy, arr_copy)
-                        pred_copy = model.predict_proba(arr_copy.reshape(1, -1))[0][1]
-                        weight = base_pred - pred_copy
-                    except:
-                        weight = 0.0
-                    weights.append(weight)
-                
-                return weights
-            
-            def fpFunction(mol):
-                # Use GetMorganFingerprintAsBitVect which returns ExplicitBitVect
-                fp = AllChem.GetMorganFingerprintAsBitVect(mol,
-                                                           radius=2,
-                                                           nBits=1024,
-                                                           useFeatures=False,
-                                                           useChirality=False)
+            def getProba(fp, predictionFunction):
+                return predictionFunction((fp,))[0][1]
+
+
+            def fpFunction(m, atomId=-1):
+                fp = SimilarityMaps.GetMorganFingerprint(mol,
+                                                        atomId=atomId,
+                                                        radius=2,
+                                                        nBits=1024)
                 return fp
             #Print and download common results
 
@@ -532,9 +377,7 @@ if models_option == 'ECFP4':
 
 
                     st.write('**Predicted fragments contribution for compound number **'+ str(i+1) + '**:**')
-                    # Calculate atom weights and create similarity map
-                    weights = getAtomWeights(mol, load_model_RF, fpFunction)
-                    fig = createSimilarityMap(mol, weights)
+                    fig, maxweight = SimilarityMaps.GetSimilarityMapForModel(mol, fpFunction, lambda x: getProba(x, load_model_RF.predict_proba), colorMap=cm.PiYG_r)
                     st.pyplot(fig)
                     st.write('The chemical fragments are colored in green (predicted to reduce inhibitory activity) or magenta (predicted to increase activity HDAC1 inhibitors). The gray isolines separate positive and negative contributions.')
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
