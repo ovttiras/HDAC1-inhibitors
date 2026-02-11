@@ -2,7 +2,7 @@
 # Import libraries
 ######################
 from matplotlib import cm
-from rdkit.Chem import SimilarityMaps
+from rdkit.Chem.Draw import SimilarityMaps, rdMolDraw2D
 from rdkit.Chem.Draw import rdMolDraw2D
 from numpy import loadtxt
 import numpy as np
