@@ -7,6 +7,8 @@ joblib
 rdkit-pypi>=2022.9.5
 stmol==0.0.9
 ipython_genutils==0.2.0
+molvs==0.1.1
+
 
 
 
