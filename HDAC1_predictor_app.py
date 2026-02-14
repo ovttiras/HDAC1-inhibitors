@@ -18,7 +18,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
 from sklearn.metrics import pairwise_distances
 import joblib
-from IPython.display import HTML
 from stmol import showmol
 import py3Dmol
 from molvs import standardize_smiles
@@ -660,3 +659,4 @@ if models_option == 'RDKit':
                     st.markdown("""<hr style="height:5px;border:none;color:#333;background-color:#333;" /> """, unsafe_allow_html=True)
     
 st.text('© Oleg Tinkov, 2022')      
+
